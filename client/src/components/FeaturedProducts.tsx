@@ -3,54 +3,42 @@ import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import cashewImage from "@assets/generated_images/Raw_cashew_nuts_product_0d9595ff.png";
-import kernelsImage from "@assets/generated_images/Cashew_kernels_premium_product_1249111a.png";
 import coffeeImage from "@assets/generated_images/Tanzanian_coffee_beans_product_4f570ea5.png";
 import pulsesImage from "@assets/generated_images/Assorted_pulses_product_display_49ce81f5.png";
-import sesameImage from "@assets/generated_images/Premium_sesame_seeds_product_f32cf303.png";
-import timberImage from "@assets/generated_images/Premium_timber_logs_export_54960df6.png";
+import liquorImage from "@assets/generated_images/Premium_liquor_collection_display_d309c7f9.png";
 
 const products = [
   {
-    name: "Raw Cashew Nuts",
-    description: "Superior nut count with high kernel recovery. Preferred by global processors.",
+    name: "Raw Cashew Nuts & Kernels",
+    category: "Agricultural Products",
+    description: "Superior nut count with high kernel recovery. From raw nuts to premium processed kernels.",
     image: cashewImage,
-    highlight: "Outturn: 50-55 LBS+",
-    href: "/products/raw-cashew-nuts",
-  },
-  {
-    name: "Cashew Kernels",
-    description: "Premium grades W180-W450, vacuum-sealed to retain natural flavor and crunch.",
-    image: kernelsImage,
-    highlight: "Grades: W180-W450",
-    href: "/products/cashew-kernels",
+    highlight: "Grades: W180-W450 | Outturn: 50-55 LBS+",
+    href: "/products/cashew",
   },
   {
     name: "Coffee",
+    category: "Agricultural Products",
     description: "Tanzanian Arabica and Robusta with rich aroma and uniform beans.",
     image: coffeeImage,
-    highlight: "AAA, AA, A Grades",
+    highlight: "AAA, AA, A Grades | FAQ 12-18",
     href: "/products/coffee",
   },
   {
-    name: "Pulses",
-    description: "Export-quality chickpeas, pigeon peas, kidney beans, and mung beans.",
+    name: "Pulses & Seeds",
+    category: "Agricultural Products",
+    description: "Chickpeas, pigeon peas, green mung beans, and premium sesame seeds.",
     image: pulsesImage,
-    highlight: "Purity: 98%+",
+    highlight: "Purity: 98%+ | Multiple Varieties",
     href: "/products/pulses",
   },
   {
-    name: "Sesame Seeds",
-    description: "Machine-cleaned and Sortex processed white and brown seeds.",
-    image: sesameImage,
-    highlight: "Purity: 98-99.95%",
-    href: "/products/sesame-seeds",
-  },
-  {
-    name: "Timber",
-    description: "Premium teak and pine wood, kiln-dried and export-ready.",
-    image: timberImage,
-    highlight: "Teak & Pine",
-    href: "/products/timber",
+    name: "Premium Liquor",
+    category: "Imports",
+    description: "High-grade whisky, rum, vodka, and gin from India and Mauritius.",
+    image: liquorImage,
+    highlight: "Bulk, Wholesale & Retail",
+    href: "/products/liquor",
   },
 ];
 
@@ -67,19 +55,25 @@ export default function FeaturedProducts() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {products.map((product) => (
-            <Card key={product.name} className="overflow-hidden hover-elevate" data-testid={`card-product-${product.name.toLowerCase().replace(/\s+/g, '-')}`}>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          {products.map((product, index) => (
+            <Card 
+              key={product.name} 
+              className="overflow-hidden hover-elevate group"
+              style={{ animationDelay: `${index * 100}ms` }}
+              data-testid={`card-product-${product.name.toLowerCase().replace(/\s+/g, '-')}`}
+            >
               <div className="aspect-[4/3] overflow-hidden">
                 <img 
                   src={product.image} 
                   alt={product.name}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                 />
               </div>
               <CardHeader>
+                <div className="text-xs text-primary font-medium mb-1">{product.category}</div>
                 <h3 className="text-xl font-semibold" data-testid={`text-product-name-${product.name.toLowerCase().replace(/\s+/g, '-')}`}>{product.name}</h3>
-                <div className="text-sm text-primary font-medium" data-testid={`text-product-highlight-${product.name.toLowerCase().replace(/\s+/g, '-')}`}>
+                <div className="text-sm text-muted-foreground" data-testid={`text-product-highlight-${product.name.toLowerCase().replace(/\s+/g, '-')}`}>
                   {product.highlight}
                 </div>
               </CardHeader>

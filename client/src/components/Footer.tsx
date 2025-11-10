@@ -4,16 +4,15 @@ import { SiLinkedin, SiFacebook, SiInstagram, SiX } from "react-icons/si";
 import logoImage from "@assets/WhatsApp Image 2025-11-10 at 11.05.53_02785800_1762753322023.jpg";
 
 const productLinks = [
-  { name: "Raw Cashew Nuts", href: "/products/raw-cashew-nuts" },
-  { name: "Cashew Kernels", href: "/products/cashew-kernels" },
+  { name: "Raw Cashew Nuts & Kernels", href: "/products/cashew" },
   { name: "Coffee", href: "/products/coffee" },
-  { name: "Pulses", href: "/products/pulses" },
-  { name: "Sesame Seeds", href: "/products/sesame-seeds" },
-  { name: "Timber", href: "/products/timber" },
+  { name: "Pulses & Seeds", href: "/products/pulses" },
+  { name: "Premium Liquor", href: "/products/liquor" },
 ];
 
 const quickLinks = [
   { name: "About Us", href: "/about" },
+  { name: "Blog", href: "/blog" },
   { name: "Partner With Us", href: "/partner" },
   { name: "Contact", href: "/contact" },
 ];

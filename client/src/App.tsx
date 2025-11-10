@@ -9,7 +9,12 @@ import Home from "@/pages/Home";
 import About from "@/pages/About";
 import Partner from "@/pages/Partner";
 import Contact from "@/pages/Contact";
-import ProductDetail from "@/pages/ProductDetail";
+import Blog from "@/pages/Blog";
+import BlogPost from "@/pages/BlogPost";
+import Cashew from "@/pages/products/Cashew";
+import Coffee from "@/pages/products/Coffee";
+import Pulses from "@/pages/products/Pulses";
+import Liquor from "@/pages/products/Liquor";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -19,27 +24,12 @@ function Router() {
       <Route path="/about" component={About} />
       <Route path="/partner" component={Partner} />
       <Route path="/contact" component={Contact} />
-      <Route path="/products/raw-cashew-nuts">
-        {() => <ProductDetail productId="raw-cashew-nuts" />}
-      </Route>
-      <Route path="/products/cashew-kernels">
-        {() => <ProductDetail productId="cashew-kernels" />}
-      </Route>
-      <Route path="/products/coffee">
-        {() => <ProductDetail productId="coffee" />}
-      </Route>
-      <Route path="/products/pulses">
-        {() => <ProductDetail productId="pulses" />}
-      </Route>
-      <Route path="/products/sesame-seeds">
-        {() => <ProductDetail productId="sesame-seeds" />}
-      </Route>
-      <Route path="/products/timber">
-        {() => <ProductDetail productId="timber" />}
-      </Route>
-      <Route path="/products/liquor">
-        {() => <ProductDetail productId="liquor" />}
-      </Route>
+      <Route path="/blog" component={Blog} />
+      <Route path="/blog/:id" component={BlogPost} />
+      <Route path="/products/cashew" component={Cashew} />
+      <Route path="/products/coffee" component={Coffee} />
+      <Route path="/products/pulses" component={Pulses} />
+      <Route path="/products/liquor" component={Liquor} />
       <Route component={NotFound} />
     </Switch>
   );

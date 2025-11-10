@@ -38,7 +38,7 @@ export default function Contact() {
             Let's collaborate to build a long-term trade partnership
           </p>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
             <Card data-testid="card-contact-form">
               <CardHeader>
                 <CardTitle>Send Us a Message</CardTitle>
@@ -143,19 +143,32 @@ export default function Contact() {
                   </div>
                 </CardContent>
               </Card>
-
-              <Card data-testid="card-map">
-                <CardContent className="pt-6">
-                  <div className="aspect-video bg-muted rounded-md flex items-center justify-center">
-                    <div className="text-center text-muted-foreground">
-                      <MapPin className="h-12 w-12 mx-auto mb-2" />
-                      <p className="text-sm">Rita Towers, Dar es Salaam</p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
             </div>
           </div>
+
+          <Card data-testid="card-map">
+            <CardHeader>
+              <CardTitle>Our Location</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="aspect-video rounded-md overflow-hidden">
+                <iframe
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3961.7654321!2d39.2791!3d-6.8167!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNsKwNDknMDAuMSJTIDM5wrAxNiczMi44IkU!5e0!3m2!1sen!2stz!4v1234567890"
+                  width="100%"
+                  height="100%"
+                  style={{ border: 0 }}
+                  allowFullScreen
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  title="Gamma International Tanzania Location"
+                  data-testid="iframe-map"
+                />
+              </div>
+              <p className="text-sm text-muted-foreground mt-4 text-center">
+                Rita Towers, City Center, Dar es Salaam, Tanzania
+              </p>
+            </CardContent>
+          </Card>
         </div>
       </div>
     </div>
