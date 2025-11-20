@@ -1,53 +1,54 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { MapPin, Users, Package, Ship } from "lucide-react";
+import { useTranslation } from "@/contexts/LanguageContext";
 
-const stats = [
-  {
-    icon: Users,
-    value: "90+",
-    label: "Years Combined Expertise",
-    description: "Multinational team with deep industry knowledge",
-  },
-  {
-    icon: MapPin,
-    value: "15+",
-    label: "Countries Served",
-    description: "Export to Asia, Europe, Middle East, and beyond",
-  },
-  {
-    icon: Package,
-    value: "7",
-    label: "Product Categories",
-    description: "Diverse portfolio of premium commodities",
-  },
-  {
-    icon: Ship,
-    value: "360°",
-    label: "Supply Chain",
-    description: "Farm to port operations fully managed",
-  },
-];
+  
+  export default function GlobalPresence() {
+  const { t } = useTranslation();
+  
+  const stats = [
+    {
+      icon: Users,
+      value: t("globalPresence.stat1Value"),
+      label: t("globalPresence.stat1Label"),
+      desc: t("globalPresence.stat1Desc"),
+    },
+    {
+      icon: MapPin,
+      value: t("globalPresence.stat2Value"),
+      label: t("globalPresence.stat2Label"),
+      desc: t("globalPresence.stat2Desc"),
+    },
+    {
+      icon: Package,
+      value: t("globalPresence.stat3Value"),
+      label: t("globalPresence.stat3Label"),
+      desc: t("globalPresence.stat3Desc"),
+    },
+    {
+      icon: Ship,
+      value: t("globalPresence.stat4Value"),
+      label: t("globalPresence.stat4Label"),
+      desc: t("globalPresence.stat4Desc"),
+    },
+  ];
 
-const locations = [
-  { name: "Dar es Salaam, Tanzania", role: "Registered Office & Operations" },
-  { name: "Dubai, UAE", role: "Strategic Global Headquarters" },
-  { name: "Ghana", role: "Regional Operations" },
-  { name: "India", role: "Processing & Logistics Hub" },
-  { name: "Germany", role: "European Operations" },
-  { name: "USA", role: "North American Base" },
-  { name: "Mauritius", role: "Liquor Production Facility" },
-];
-
-export default function GlobalPresence() {
+  const locations = [
+    { name: t("globalPresence.location1"), role: t("globalPresence.location1Role") },
+    { name: t("globalPresence.location2"), role: t("globalPresence.location2Role") },
+    { name: t("globalPresence.location4"), role: t("globalPresence.location4Role") },
+    { name: t("globalPresence.location7"), role: t("globalPresence.location7Role") },
+  ];
+  
   return (
     <section className="py-20 bg-muted/30">
       <div className="container px-6">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold mb-4" data-testid="text-global-title">
-            Our Global Footprint
+            {t("globalPresence.title")}
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto" data-testid="text-global-subtitle">
-            Operating seamlessly across continents with strategic presence in key economic hubs worldwide
+            {t("globalPresence.subtitle")}
           </p>
         </div>
 
@@ -64,7 +65,7 @@ export default function GlobalPresence() {
                     {stat.label}
                   </div>
                   <div className="text-xs text-muted-foreground">
-                    {stat.description}
+                    {stat.desc}
                   </div>
                 </div>
               </CardContent>
@@ -74,7 +75,7 @@ export default function GlobalPresence() {
 
         <div className="bg-card border border-card-border rounded-md p-8">
           <h3 className="text-2xl font-semibold mb-6 text-center" data-testid="text-locations-title">
-            Our Locations
+            {t("globalPresence.locationsTitle")}
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {locations.map((location) => (

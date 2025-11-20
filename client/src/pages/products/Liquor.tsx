@@ -3,44 +3,67 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ArrowLeft, Package, CheckCircle2, Wine } from "lucide-react";
-import liquorImage from "@assets/generated_images/Premium_liquor_collection_display_d309c7f9.png";
+import { useTranslation } from "@/contexts/LanguageContext";
 
 export default function Liquor() {
+  const { t } = useTranslation();
+
   return (
     <div className="py-20">
       <div className="container px-6">
         <Link href="/">
           <Button variant="ghost" className="mb-6" data-testid="button-back">
             <ArrowLeft className="mr-2 h-4 w-4" />
-            Back to Products
+            {t("common.backToProducts")}
           </Button>
         </Link>
 
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-12">
-            <Badge className="mb-4">Imports</Badge>
             <h1 className="text-4xl md:text-5xl font-bold mb-4" data-testid="text-product-title">
-              Premium Liquor & Ethanol
+              {t("liquorPage.title")}
             </h1>
             <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-              High-grade liquor imports from India and Mauritius for East African markets
+              {t("liquorPage.subtitle")}
             </p>
           </div>
 
           <div className="mb-12">
             <img 
-              src={liquorImage} 
-              alt="Premium Liquor Collection"
-              className="w-full rounded-md shadow-lg"
+              src="/images/Liquor/SAPs-S3Q-Flavoured-Collection.jpg" 
+              alt="Liquor & Alcohol"
+              className="w-full rounded-md shadow-lg object-cover"
               data-testid="img-product"
             />
           </div>
 
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+            <div className="rounded-lg shadow-md overflow-hidden h-96">
+              <img 
+                src="/images/Liquor/Liqueurs.webp"
+                alt="Liquor products"
+                className="w-full h-full object-cover"
+              />
+            </div>
+            <div className="rounded-lg shadow-md overflow-hidden h-96">
+              <img 
+                src="/images/Liquor/port-louiis-1.webp"
+                alt="Liquor products"
+                className="w-full h-full object-cover"
+              />
+            </div>
+            <div className="rounded-lg shadow-md overflow-hidden h-96">
+              <img 
+                src="/images/Liquor/7-brother-750ml.webp"
+                alt="Liquor products"
+                className="w-full h-full object-cover"
+              />
+            </div>
+          </div>
+
           <div className="prose prose-lg max-w-none mb-12">
             <p className="text-muted-foreground">
-              Gamma International Tanzania Ltd specializes in importing high-grade and premium liquor from trusted 
-              distilleries in India and Mauritius, catering to bulk, wholesale, and retail demands across East Africa. 
-              Our portfolio includes premium whisky, rum, vodka, and gin in multiple bottle sizes to meet diverse market needs.
+              {t("liquorPage.intro")}
             </p>
           </div>
 
@@ -49,24 +72,52 @@ export default function Liquor() {
               <CardContent className="pt-6">
                 <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
                   <Wine className="h-5 w-5 text-primary" />
-                  Product Range
+                  {t("liquorPage.productsTitle")}
                 </h2>
                 <div className="space-y-4">
                   <div>
-                    <h3 className="font-semibold mb-2">Spirits Available</h3>
+                    <h3 className="font-semibold mb-2">{t("liquorPage.spiritsTitle")}</h3>
                     <div className="flex flex-wrap gap-2">
-                      <Badge variant="outline">Whisky</Badge>
-                      <Badge variant="outline">Rum</Badge>
-                      <Badge variant="outline">Vodka</Badge>
-                      <Badge variant="outline">Gin</Badge>
+                      <Badge className="bg-[#CD4F10] text-white hover:bg-[#B54509]">
+                        {t("liquorPage.spiritWhisky")}
+                      </Badge>
+                      <Badge className="bg-[#CD4F10] text-white hover:bg-[#B54509]">
+                        {t("liquorPage.spiritRum")}
+                      </Badge>
+                      <Badge className="bg-[#CD4F10] text-white hover:bg-[#B54509]">
+                        {t("liquorPage.spiritVodka")}
+                      </Badge>
+                      <Badge className="bg-[#CD4F10] text-white hover:bg-[#B54509]">
+                        {t("liquorPage.spiritGin")}
+                      </Badge>
                     </div>
                   </div>
                   <div>
-                    <h3 className="font-semibold mb-2">Bottle Sizes</h3>
+                    <h3 className="font-semibold mb-2">{t("liquorPage.sizesTitle")}</h3>
                     <div className="flex flex-wrap gap-2">
-                      <Badge variant="outline">200ml</Badge>
-                      <Badge variant="outline">375ml</Badge>
-                      <Badge variant="outline">750ml</Badge>
+                      <Badge className="bg-[#CD4F10] text-white hover:bg-[#B54509]">
+                        {t("liquorPage.size200ml")}
+                      </Badge>
+                      <Badge className="bg-[#CD4F10] text-white hover:bg-[#B54509]">
+                        {t("liquorPage.size375ml")}
+                      </Badge>
+                      <Badge className="bg-[#CD4F10] text-white hover:bg-[#B54509]">
+                        {t("liquorPage.size750ml")}
+                      </Badge>
+                    </div>
+                  </div>
+                  <div>
+                    <h3 className="font-semibold mb-2">{t("liquorPage.gradesTitle")}</h3>
+                    <div className="flex flex-wrap gap-2">
+                      <Badge className="bg-[#CD4F10] text-white hover:bg-[#B54509]">
+                        {t("liquorPage.gradeWhiskyHs")}
+                      </Badge>
+                      <Badge className="bg-[#CD4F10] text-white hover:bg-[#B54509]">
+                        {t("liquorPage.gradeRumHs")}
+                      </Badge>
+                      <Badge className="bg-[#CD4F10] text-white hover:bg-[#B54509]">
+                        {t("liquorPage.gradeLiquorHs")}
+                      </Badge>
                     </div>
                   </div>
                 </div>
@@ -77,15 +128,30 @@ export default function Liquor() {
               <CardContent className="pt-6">
                 <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
                   <Package className="h-5 w-5 text-primary" />
-                  Packaging & Logistics
+                  {t("liquorPage.specsTitle")}
                 </h2>
                 <div className="space-y-3">
                   {[
-                    { label: "Packaging", value: "Secure corrugated cartons, 12 bottles per carton" },
-                    { label: "20ft Container", value: "~13,200 bottles (750ml) or mixed sizes" },
-                    { label: "Origin", value: "India and Mauritius" },
-                    { label: "Quality", value: "Premium grade from certified distilleries" },
-                    { label: "Distribution", value: "Bulk, Wholesale & Retail" },
+                    {
+                      label: t("liquorPage.specPackagingLabel"),
+                      value: t("liquorPage.specPackagingValue"),
+                    },
+                    {
+                      label: t("liquorPage.spec20ftLabel"),
+                      value: t("liquorPage.spec20ftValue"),
+                    },
+                    {
+                      label: t("liquorPage.specOriginLabel"),
+                      value: t("liquorPage.specOriginValue"),
+                    },
+                    {
+                      label: t("liquorPage.specQualityLabel"),
+                      value: t("liquorPage.specQualityValue"),
+                    },
+                    {
+                      label: t("liquorPage.specDistributionLabel"),
+                      value: t("liquorPage.specDistributionValue"),
+                    },
                   ].map((spec, index) => (
                     <div key={index} className="flex items-start gap-2">
                       <CheckCircle2 className="h-4 w-4 text-primary flex-shrink-0 mt-1" />
@@ -101,22 +167,22 @@ export default function Liquor() {
 
           <Card className="mb-12" data-testid="card-markets">
             <CardContent className="pt-6">
-              <h2 className="text-xl font-bold mb-4">Market Coverage</h2>
+              <h2 className="text-xl font-bold mb-4">{t("liquorPage.marketsTitle")}</h2>
               <p className="text-muted-foreground mb-4">
-                We serve the East African market with reliable liquor imports, ensuring consistent supply for:
+                {t("liquorPage.marketsIntro")}
               </p>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div className="flex items-center gap-2">
                   <CheckCircle2 className="h-4 w-4 text-primary" />
-                  <span className="text-sm">Wholesale Distributors</span>
+                  <span className="text-sm">{t("liquorPage.marketWholesale")}</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <CheckCircle2 className="h-4 w-4 text-primary" />
-                  <span className="text-sm">Retail Chains</span>
+                  <span className="text-sm">{t("liquorPage.marketRetail")}</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <CheckCircle2 className="h-4 w-4 text-primary" />
-                  <span className="text-sm">Hospitality Sector</span>
+                  <span className="text-sm">{t("liquorPage.marketHospitality")}</span>
                 </div>
               </div>
             </CardContent>
@@ -124,13 +190,20 @@ export default function Liquor() {
 
           <Card className="bg-muted/30">
             <CardContent className="pt-6 text-center">
-              <h2 className="text-2xl font-bold mb-4">Partner for Liquor Imports</h2>
+              <h2 className="text-2xl font-bold mb-4">{t("liquorPage.ctaTitle")}</h2>
               <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
-                Contact us for bulk orders, competitive pricing, and reliable delivery across East Africa
+                {t("liquorPage.ctaBody")}
               </p>
-              <Link href="/contact">
-                <Button size="lg" data-testid="button-request-quote">Request Quote</Button>
-              </Link>
+              <div className="flex flex-wrap gap-4 justify-center">
+                <Link href="/contact">
+                  <Button size="lg" data-testid="button-request-quote">
+                    {t("common.requestQuote")}
+                  </Button>
+                </Link>
+                <Link href="/blog/east-africa-liquor-portfolio">
+                  <Button size="lg" variant="outline" data-testid="button-view-blog">{t("liquorPage.ctaLearnMore")}</Button>
+                </Link>
+              </div>
             </CardContent>
           </Card>
         </div>

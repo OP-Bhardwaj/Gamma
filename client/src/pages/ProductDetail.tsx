@@ -1,5 +1,6 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { Link } from "wouter";
 import { Package, CheckCircle2, ArrowLeft } from "lucide-react";
 import cashewImage from "@assets/generated_images/Raw_cashew_nuts_product_0d9595ff.png";
@@ -94,7 +95,7 @@ const products = {
     ],
   },
   "liquor": {
-    name: "Liquor & Ethanol Imports",
+    name: "Liquor & Alcohol Imports",
     image: liquorImage,
     description: "Gamma specializes in importing high-grade and premium Liquor from India and Mauritius, catering to bulk, wholesale and retail demands across East Africa.",
     specs: [
@@ -161,15 +162,46 @@ export default function ProductDetail({ productId }: ProductDetailProps) {
                 Product Specifications
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {product.specs.map((spec, index) => (
-                  <div key={index} className="flex items-start gap-3" data-testid={`spec-${index}`}>
-                    <CheckCircle2 className="h-5 w-5 text-primary flex-shrink-0 mt-1" />
-                    <div>
-                      <div className="font-medium">{spec.label}</div>
-                      <div className="text-sm text-muted-foreground">{spec.value}</div>
+                {product.specs.map((spec, index) => {
+                  const isCashewKernelGrades =
+                    product.name === "Cashew Nut Kernels" && spec.label === "Grades";
+
+                  const gradeItems = isCashewKernelGrades
+                    ? spec.value
+                        .split(",")
+                        .map((item) => item.trim())
+                        .filter(Boolean)
+                    : [];
+
+                  return (
+                    <div
+                      key={index}
+                      className="flex items-start gap-3"
+                      data-testid={`spec-${index}`}
+                    >
+                      <CheckCircle2 className="h-5 w-5 text-primary flex-shrink-0 mt-1" />
+                      <div>
+                        <div className="font-medium">{spec.label}</div>
+                        {isCashewKernelGrades ? (
+                          <div className="flex flex-wrap gap-2 mt-1">
+                            {gradeItems.map((grade) => (
+                              <Badge
+                                key={grade}
+                                className="bg-[#CD4F10] text-white hover:bg-[#B54509]"
+                              >
+                                {grade}
+                              </Badge>
+                            ))}
+                          </div>
+                        ) : (
+                          <div className="text-sm text-muted-foreground">
+                            {spec.value}
+                          </div>
+                        )}
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             </CardContent>
           </Card>

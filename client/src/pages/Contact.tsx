@@ -6,45 +6,116 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { MapPin, Phone, Mail, Send } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useTranslation } from "@/contexts/LanguageContext";
+
+// Country dial codes for phone number selector
+const COUNTRY_DIAL_CODES = [
+  { code: "TZ", name: "Tanzania", dialCode: "+255" },
+  { code: "KE", name: "Kenya", dialCode: "+254" },
+  { code: "UG", name: "Uganda", dialCode: "+256" },
+  { code: "RW", name: "Rwanda", dialCode: "+250" },
+  { code: "BI", name: "Burundi", dialCode: "+257" },
+  { code: "ZM", name: "Zambia", dialCode: "+260" },
+  { code: "CD", name: "DR Congo", dialCode: "+243" },
+  { code: "ET", name: "Ethiopia", dialCode: "+251" },
+  { code: "US", name: "United States", dialCode: "+1" },
+  { code: "CA", name: "Canada", dialCode: "+1" },
+  { code: "GB", name: "United Kingdom", dialCode: "+44" },
+  { code: "DE", name: "Germany", dialCode: "+49" },
+  { code: "FR", name: "France", dialCode: "+33" },
+  { code: "ES", name: "Spain", dialCode: "+34" },
+  { code: "IT", name: "Italy", dialCode: "+39" },
+  { code: "AE", name: "United Arab Emirates", dialCode: "+971" },
+  { code: "IN", name: "India", dialCode: "+91" },
+  { code: "CN", name: "China", dialCode: "+86" },
+  { code: "JP", name: "Japan", dialCode: "+81" },
+  { code: "AU", name: "Australia", dialCode: "+61" },
+  { code: "ZA", name: "South Africa", dialCode: "+27" },
+  { code: "NG", name: "Nigeria", dialCode: "+234" },
+  { code: "BR", name: "Brazil", dialCode: "+55" },
+  { code: "SA", name: "Saudi Arabia", dialCode: "+966" },
+  { code: "TR", name: "Turkey", dialCode: "+90" },
+  { code: "RU", name: "Russia", dialCode: "+7" },
+  { code: "NL", name: "Netherlands", dialCode: "+31" },
+  { code: "BE", name: "Belgium", dialCode: "+32" },
+  { code: "SE", name: "Sweden", dialCode: "+46" },
+  { code: "NO", name: "Norway", dialCode: "+47" },
+  { code: "DK", name: "Denmark", dialCode: "+45" },
+  { code: "FI", name: "Finland", dialCode: "+358" },
+  { code: "CH", name: "Switzerland", dialCode: "+41" },
+  { code: "PL", name: "Poland", dialCode: "+48" },
+  { code: "PT", name: "Portugal", dialCode: "+351" },
+  { code: "GR", name: "Greece", dialCode: "+30" },
+  { code: "IE", name: "Ireland", dialCode: "+353" },
+  { code: "AR", name: "Argentina", dialCode: "+54" },
+  { code: "MX", name: "Mexico", dialCode: "+52" },
+  { code: "CL", name: "Chile", dialCode: "+56" },
+  { code: "CO", name: "Colombia", dialCode: "+57" },
+  { code: "PK", name: "Pakistan", dialCode: "+92" },
+  { code: "BD", name: "Bangladesh", dialCode: "+880" },
+  { code: "LK", name: "Sri Lanka", dialCode: "+94" },
+  { code: "MY", name: "Malaysia", dialCode: "+60" },
+  { code: "SG", name: "Singapore", dialCode: "+65" },
+  { code: "TH", name: "Thailand", dialCode: "+66" },
+  { code: "VN", name: "Vietnam", dialCode: "+84" },
+  { code: "KR", name: "South Korea", dialCode: "+82" },
+];
 
 export default function Contact() {
   const { toast } = useToast();
+  const { t } = useTranslation();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     company: "",
+    phoneCountryCode: "+255",
+    phoneNumber: "",
     message: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
 
     try {
       const response = await fetch("/api/contact", {
         method: "POST",
-        body: JSON.stringify(formData),
         headers: {
           "Content-Type": "application/json",
         },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          company: formData.company,
+          message: formData.message,
+          phoneCountryCode: formData.phoneCountryCode,
+          phoneNumber: formData.phoneNumber,
+        }),
       });
 
       const data = await response.json();
 
-      if (response.ok) {
-        toast({
-          title: "Message Sent!",
-          description: data.message || "We'll get back to you within 24 hours.",
-        });
-        setFormData({ name: "", email: "", company: "", message: "" });
-      } else {
-        throw new Error(data.message);
+      if (!response.ok || !data?.success) {
+        throw new Error(data?.message || t("common.contactToastErrorGeneric"));
       }
-    } catch (error) {
+
       toast({
-        title: "Error",
-        description: "Failed to send message. Please try again.",
+        title: t("common.contactToastSuccessTitle"),
+        description: data.message || t("common.contactToastSuccessDescription"),
+      });
+      setFormData({
+        name: "",
+        email: "",
+        company: "",
+        phoneCountryCode: "+255",
+        phoneNumber: "",
+        message: "",
+      });
+    } catch (error: any) {
+      toast({
+        title: t("common.contactToastErrorTitle"),
+        description: error?.message || t("common.contactToastErrorGeneric"),
         variant: "destructive",
       });
     } finally {
@@ -53,26 +124,33 @@ export default function Contact() {
   };
 
   return (
-    <div className="py-20">
-      <div className="container px-6">
+    <div className="relative min-h-screen py-20 bg-gradient-to-br from-orange-50 via-amber-50 to-orange-100 dark:from-gray-900 dark:via-orange-950/20 dark:to-gray-900">
+      {/* Decorative background elements */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-20 right-10 w-96 h-96 bg-[#CD4F10]/20 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-20 left-10 w-[500px] h-[500px] bg-orange-400/20 rounded-full blur-3xl animate-pulse" style={{animationDelay: '1s'}}></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-amber-300/10 rounded-full blur-3xl"></div>
+      </div>
+      
+      <div className="container px-6 relative z-10">
         <div className="max-w-5xl mx-auto">
           <h1 className="text-4xl md:text-5xl font-bold mb-6 text-center" data-testid="text-contact-title">
-            Contact Us
+            {t("nav.contact")}
           </h1>
           
           <p className="text-lg text-muted-foreground text-center mb-12" data-testid="text-contact-subtitle">
-            Let's collaborate to build a long-term trade partnership
+            {t("common.contactSubtitle")}
           </p>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
             <Card data-testid="card-contact-form">
               <CardHeader>
-                <CardTitle>Send Us a Message</CardTitle>
+                <CardTitle>{t("common.contactFormTitle")}</CardTitle>
               </CardHeader>
               <CardContent>
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div>
-                    <Label htmlFor="name">Name *</Label>
+                    <Label htmlFor="name">{t("common.contactNameLabel")}</Label>
                     <Input
                       id="name"
                       value={formData.name}
@@ -84,7 +162,7 @@ export default function Contact() {
                   </div>
                   
                   <div>
-                    <Label htmlFor="email">Email *</Label>
+                    <Label htmlFor="email">{t("common.contactEmailLabel")}</Label>
                     <Input
                       id="email"
                       type="email"
@@ -97,7 +175,41 @@ export default function Contact() {
                   </div>
                   
                   <div>
-                    <Label htmlFor="company">Company</Label>
+                    <Label htmlFor="phone">{t("common.contactPhoneLabel")}</Label>
+                    <div className="flex gap-2">
+                      <select
+                        id="phone-country"
+                        className="w-40 rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                        value={formData.phoneCountryCode}
+                        onChange={(e) =>
+                          setFormData({ ...formData, phoneCountryCode: e.target.value })
+                        }
+                        disabled={isSubmitting}
+                        data-testid="select-phone-country"
+                      >
+                        {COUNTRY_DIAL_CODES.map((country) => (
+                          <option key={country.code} value={country.dialCode}>
+                            {country.name} ({country.dialCode})
+                          </option>
+                        ))}
+                      </select>
+                      <Input
+                        id="phone"
+                        type="tel"
+                        placeholder={t("common.contactPhonePlaceholder") || "Phone number"}
+                        value={formData.phoneNumber}
+                        onChange={(e) =>
+                          setFormData({ ...formData, phoneNumber: e.target.value })
+                        }
+                        required
+                        disabled={isSubmitting}
+                        data-testid="input-phone"
+                      />
+                    </div>
+                  </div>
+                  
+                  <div>
+                    <Label htmlFor="company">{t("common.contactCompanyLabel")}</Label>
                     <Input
                       id="company"
                       value={formData.company}
@@ -108,7 +220,7 @@ export default function Contact() {
                   </div>
                   
                   <div>
-                    <Label htmlFor="message">Message *</Label>
+                    <Label htmlFor="message">{t("common.contactMessageLabel")}</Label>
                     <Textarea
                       id="message"
                       rows={5}
@@ -121,7 +233,7 @@ export default function Contact() {
                   </div>
                   
                   <Button type="submit" className="w-full" disabled={isSubmitting} data-testid="button-submit">
-                    {isSubmitting ? "Sending..." : "Send Message"}
+                    {isSubmitting ? t("common.contactSubmitSending") : t("common.contactSubmitLabel")}
                     <Send className="ml-2 h-4 w-4" />
                   </Button>
                 </form>
@@ -133,19 +245,16 @@ export default function Contact() {
                 <CardContent className="pt-6">
                   <h3 className="font-semibold mb-4 flex items-center gap-2">
                     <MapPin className="h-5 w-5 text-primary" />
-                    Head Office
+                    {t("common.contactHeadOfficeTitle")}
                   </h3>
                   <p className="text-sm text-muted-foreground mb-2" data-testid="text-office-address">
-                    Gamma International Tanzania Ltd
+                    {t("common.contactHeadOfficeName")}
                   </p>
                   <p className="text-sm text-muted-foreground mb-2">
-                    24th Floor, Rita Towers
-                  </p>
-                  <p className="text-sm text-muted-foreground mb-2">
-                    Dar es Salaam, Tanzania
+                    {t("common.contactAddressLine1")}
                   </p>
                   <p className="text-sm text-muted-foreground">
-                    PO Box 22469
+                    {t("common.contactMapCaption")}
                   </p>
                 </CardContent>
               </Card>
@@ -153,19 +262,19 @@ export default function Contact() {
               <Card data-testid="card-contact-details">
                 <CardContent className="pt-6 space-y-4">
                   <div>
-                    <h3 className="font-semibold mb-2 flex items-center gap-2">
-                      <Phone className="h-5 w-5 text-primary" />
-                      Phone
+                  <h3 className="font-semibold mb-4 flex items-center gap-2">
+                    <Phone className="h-5 w-5 text-primary" />
+                    {t("common.contactPhoneTitle")}
                     </h3>
-                    <a href="tel:+255668960061" className="text-sm text-muted-foreground hover:text-foreground" data-testid="link-phone">
-                      +255 668 960 061
+                    <a href="tel:+255678960061" className="text-sm text-muted-foreground hover:text-foreground" data-testid="link-phone">
+                      +255 678 960 061
                     </a>
                   </div>
                   
                   <div>
-                    <h3 className="font-semibold mb-2 flex items-center gap-2">
-                      <Mail className="h-5 w-5 text-primary" />
-                      Email
+                  <h3 className="font-semibold mb-4 flex items-center gap-2">
+                    <Mail className="h-5 w-5 text-primary" />
+                    {t("common.contactEmailTitle")}
                     </h3>
                     <a href="mailto:info@gammaimternationaltz.com" className="text-sm text-muted-foreground hover:text-foreground" data-testid="link-email">
                       info@gammaimternationaltz.com
@@ -178,7 +287,7 @@ export default function Contact() {
 
           <Card data-testid="card-map">
             <CardHeader>
-              <CardTitle>Our Location</CardTitle>
+              <CardTitle>{t("common.contactMapTitle")}</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="aspect-video rounded-md overflow-hidden">
@@ -190,12 +299,12 @@ export default function Contact() {
                   allowFullScreen
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
-                  title="Gamma International Tanzania Location"
+                  title={t("common.contactMapTitle")}
                   data-testid="iframe-map"
                 />
               </div>
               <p className="text-sm text-muted-foreground mt-4 text-center">
-                Rita Towers, City Center, Dar es Salaam, Tanzania
+                {t("common.contactMapCaption")}
               </p>
             </CardContent>
           </Card>
